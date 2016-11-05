@@ -1,15 +1,27 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var db = require('./models/conversation');
 var flash = require('connect-flash');
 var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var bcrypt = require('bcrypt');
+var localStrategy = require('passport-local').Strategy;
+
+// postgres dependencies, bluebird promise library (and override pg-promise)
+var promise = require('bluebird');
+var options = { promiseLib: promise };
+var pgp = require('pg-promise')(options);
+var connectionString = 'postgres://oeupplkqmvjyik:j-USwIR_qmpHvvctYfiLigVkao@ec2-54-221-226-148.compute-1.amazonaws.com:5432/d1ab48uu38khao';
+var db = pgp(connectionString);
+
+// models
+var conversation = require('./models/conversation')(io, db);
+var user = require('./models/user')(passport, db, localStrategy, bcrypt);
 
 // User dependencies (cookie parsing, login strategy, flash messages)
-require('./models/user')(passport); // pass passport for configuration
 app.use(cookieParser());
 app.use(bodyParser());
 app.use(session({ secret: 'zomaareenstukjetekstDatjenietzomaarbedenkt'}));
@@ -17,27 +29,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-
-io.on('connection', function(socket) {
-    // socket.broadcast.emit('Welcome to Flower Chat!');
-    
-    socket.on('disconnect', function() {
-        console.log('user disconnected');
-    });
-    
-    socket.on('chat message', function(msg) {
-        console.log('message: ' + msg);
-        io.emit('chat message', msg);
-    });
-    
-});
-
 // allow serving of static files (ie in public), set default view directory to public/views and allow embedded javascript
 app.use('/public', express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/public/views');
 
 // routes
-require('./routes')(app, passport, unsplash);
+require('./routes')(app, passport, conversation);
 
-app.listen(process.env.PORT || 3500)
+// server
+http.listen(3500, function() {
+    console.log('listening on port:3500');
+});

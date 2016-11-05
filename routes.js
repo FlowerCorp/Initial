@@ -1,4 +1,4 @@
-module.exports = function(app, passport, db, unsplash) {
+module.exports = function(app, passport, conversation) {
 
   // main routes for handling image API endpoints
   // app.get('/api/curated', isLoggedIn, unsplash.getCuratedPictures);

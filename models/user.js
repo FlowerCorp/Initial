@@ -1,24 +1,8 @@
 // users have many conversations
 
-// bcrypt for salting and hashing password
-var bcrypt = require('bcrypt');
-
 // load authentication strategies (local strategy in this case, option to add oauth)
 var LocalStrategy = require('passport-local').Strategy;
 
-// load bluebird promise library
-var promise = require('bluebird');
-var options = {
-  // overrode pg-promise promise library with bluebird
-  promiseLib: promise
-};
-
-// postgres info
-var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://oeupplkqmvjyik:j-USwIR_qmpHvvctYfiLigVkao@ec2-54-221-226-148.compute-1.amazonaws.com:5432/d1ab48uu38khao';
-var db = pgp(connectionString);
-
-// local login
 module.exports = function(passport) {
 
   // used to serialize the user for the session
