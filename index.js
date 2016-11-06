@@ -14,7 +14,7 @@ var localStrategy = require('passport-local').Strategy;
 var promise = require('bluebird');
 var options = { promiseLib: promise };
 var pgp = require('pg-promise')(options);
-var connectionString = 'postgres://oeupplkqmvjyik:j-USwIR_qmpHvvctYfiLigVkao@ec2-54-221-226-148.compute-1.amazonaws.com:5432/d1ab48uu38khao';
+var connectionString = 'postgres://bowei:12345@localhost:5432/flowercorp';
 var db = pgp(connectionString);
 
 // models

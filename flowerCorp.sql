@@ -1,18 +1,18 @@
-DROP DATABASE IF EXISTS flowerCorp;
-CREATE DATABASE flowerCorp;
+DROP DATABASE IF EXISTS flowercorp;
+CREATE DATABASE flowercorp;
 
-\c flowerCorp;
+\c flowercorp;
 
 CREATE TABLE conversations (
   ID SERIAL PRIMARY KEY,
-  name VARCHAR,
+  message VARCHAR,
   user_id INTEGER
 );
 
 CREATE TABLE users_conversations (
   ID SERIAL PRIMARY KEY,
-  user_id,
-  conversation_id
+  user_id INTEGER,
+  conversation_id INTEGER
 );
 
 CREATE TABLE users (
@@ -21,5 +21,5 @@ CREATE TABLE users (
   password VARCHAR,
   token VARCHAR,
   username VARCHAR,
-  conversation_id, INTEGER,
+  conversation_id INTEGER
 );

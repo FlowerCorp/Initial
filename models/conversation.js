@@ -1,16 +1,32 @@
 // conversations have many users
 
-module.exports = function(io) {
+module.exports = function(io, db) {
   
   io.on('connection', function(socket) {
-      // socket.broadcast.emit('Welcome to Flower Chat!');
+    
+      console.log('Hello!');
+      
+      db.any('select * from conversations').then(function(data) {
+          for (var i = 0; i < data.length; i++) {
+              io.emit('chat message', data[i].message);
+          };
+      });
+
       socket.on('disconnect', function() {
-          console.log('user disconnected');
+          io.emit('clear messages');
+          console.log('GoodBye!');
       });
+      
       socket.on('chat message', function(msg) {
-          console.log('message: ' + msg);
+          console.log(typeof(msg));
           io.emit('chat message', msg);
+          // inserting these into the database in a bad way for now (no user id, 1 row per message)
+          db.none('INSERT INTO conversations (message, user_id)' + 'VALUES($1, $2);', [msg, 42])
+              .then(function (response) {
+                  console.log("message inserted");
+              });
       });
+      
   });
   
 };
