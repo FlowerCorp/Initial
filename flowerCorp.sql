@@ -6,7 +6,8 @@ CREATE DATABASE flowercorp;
 CREATE TABLE conversations (
   ID SERIAL PRIMARY KEY,
   message VARCHAR,
-  user_id INTEGER
+  user_id INTEGER,
+  parent_id INTEGER
 );
 
 CREATE TABLE users_conversations (

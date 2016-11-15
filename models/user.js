@@ -44,7 +44,7 @@ module.exports = function(passport) {
       });
   }));
 
-  // The legendary nested database query to automatically log in after signing up (lord have mercy)
+  // The legendary nested database query to automatically log in after signing up
   passport.use('local-signup', new LocalStrategy({
     usernameField : 'email',
     passwordField : 'password',

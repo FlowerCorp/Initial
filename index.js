@@ -38,6 +38,4 @@ app.set('views', __dirname + '/public/views');
 require('./routes')(app, passport, conversation);
 
 // server
-http.listen(3500, function() {
-    console.log('listening on port:3500');
-});
+http.listen(3500, function() { console.log('listening on port:3500'); });
