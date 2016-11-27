@@ -7,8 +7,8 @@ module.exports = function(io, db, conversation) {
           io.emit('clear messages');
       });
       socket.on('chat message', function (msg) {
+          io.emit('chat message', msg);
           conversation.createMessage(msg, 30, 42).done(function(data) {
-              io.emit('chat message', msg);
           })
       });
   });

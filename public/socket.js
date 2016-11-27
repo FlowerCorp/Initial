@@ -1,13 +1,13 @@
 var socket = io();
 
-$('form').submit(function() {
-    socket.emit('chat message', $('#m').val());
-    $('#m').val('');
-    return false;
+$('form').submit(function(evt) {
+    evt.preventDefault();
+    socket.emit('chat message', $('#msg').val());
+    $('#msg').val('');
 })
 
 socket.on('chat message', function(msg) {
-    $('#messages').append($('<li>').text(msg));
+    $('#messages').append('<div class="btn btn-primary btn-outline-info" style="margin: 5px;">'+msg+'<a class="fa fa-trash" style="margin-left: 30px;" aria-hidden="true"></a></div>');
     $('#messages').scrollTop($('#messages').prop("scrollHeight"));
 });
 
