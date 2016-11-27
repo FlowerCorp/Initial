@@ -18,8 +18,8 @@ var connectionString = 'postgres://bowei:12345@localhost:5432/flowercorp';
 var db = pgp(connectionString);
 
 // models
-var conversation = require('./models/conversation')(io, db);
-var user = require('./models/user')(passport, db, localStrategy, bcrypt);
+var conversation = require('./models/conversation')(db);
+var socket = require('./models/socket')(io, db, conversation);
 
 // User dependencies (cookie parsing, login strategy, flash messages)
 app.use(cookieParser());

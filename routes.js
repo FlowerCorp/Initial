@@ -1,18 +1,20 @@
 module.exports = function(app, passport, conversation) {
 
-  // API ENDPOINTS
   app.get('/api/messages', function(req, res) {
-      return conversation.getAllMessages();
+      conversation.getAllMessages().done(function(messages) {
+          res.status(200).json({ data: messages });
+      });
   });
-  
   app.get('/api/conversations/:conversation_id/messages', function(req, res) {
-      return conversation.getAllConversationMessages(conversation_id);
+      conversation.getAllConversationMessages().done(function(messages) {
+          res.status(200).json({ data: messages });
+      });
   });
-  
   app.get('/api/conversations/:conversation_id/messages/:message_id', function(req, res) {
-      return conversation.getMessage(conversation_id, message_id);
+      conversation.getMessage(conversation_id, message_id).done(function(message) {
+          res.status(200).json({ data: message });
+      });
   });
-  
   app.post('api/conversations/:conversation_id/messages/:message_id', function(req, res) {
       
   });
